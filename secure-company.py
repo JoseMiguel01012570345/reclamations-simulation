@@ -1,21 +1,30 @@
 import math as mt
+import os
+import time
 
 def factorial(n):
     
     if n==1 or n == 0:
         return 1
     
-    return n*factorial(n-1)
+    result=int(1)
+    
+    for i in range(n):
+        result *= i + 1
+        
+    #print(f"factorial:{result}")
+    
+    return result
 
 def reclamation_distribution1( n ): # M
     
-    if n == 1:
-        return 1/2
-    
-    return (1/2)*reclamation_distribution1(n-1)
+    return (1/2)**n
 
 def reclamation_distribution2(xi):
-
+    
+    if xi == 0:
+        xi+=1
+    
     return 1-(1/xi)
         
 def amount_reclamation_distribution( n ): # F
@@ -24,33 +33,37 @@ def amount_reclamation_distribution( n ): # F
     
     for xi in range(n):
         
-        if n - xi % 2 == 0: # people complaint if half of clients complaint
+        if (n - (xi+1)) % 2 == 0: # people complaint if half of clients complaint
                 
-            combinations= int(int(factorial(n)/ (factorial(xi)*factorial(n-xi)))) 
+            combinations= int(int(factorial(n)/ (factorial(xi+1)*factorial(n-(xi+1))))) 
             
             recl = reclamation_distribution1(n) 
             
-            pq=( recl** xi )*(( 1 - recl )**( n - xi )) # number of complaits for a client that complaints with probability of p
+            pq=( recl** (xi+1) )*(( 1 - recl )**( n - (xi+1) )) # number of complaits for a client that complaints with probability of p
             
-            complaint_number += combinations*pq
-            
+            complaint_number += int(combinations*pq)
+            #print(f"distribution1: {combinations*pq}")
         
         else:
             
-            combinations= (int(factorial(n)/ (factorial(xi)*factorial(n-xi)))) # people complaint if there are many clients
+            combinations= (int(factorial(n)/ (factorial((xi+1))*factorial(n-(xi+1))))) # people complaint if there are many clients
             
-            recl = reclamation_distribution2(xi) 
+            recl = reclamation_distribution2((xi+1)) 
             
-            pq=( recl** xi )*(( 1 - recl )**( n - xi )) # number of complaits for a client that complaints with probability of p
+            pq=( recl** (xi+1) )*(( 1 - recl )**( n - (xi+1) )) # number of complaits for a client that complaints with probability of p
             
-            complaint_number += combinations*pq
+            complaint_number += int(combinations*pq)
+            #print(f"distribution2: {combinations*pq}")
             
             
     return complaint_number
 
 def time_client_arrive( amount_reclamations ): # v
-    
-    return int(factorial(amount_reclamations)*mt.e) # poisson distribution using alpha=1
+
+        if amount_reclamations < 2:
+            return 1
+        
+        return int(mt.log2(amount_reclamations))
 
 def number_client_time( n , reclamation_number , time): # u
     
@@ -58,10 +71,13 @@ def number_client_time( n , reclamation_number , time): # u
     
     return int( client_left*time )    
     
-
 def client_time( reclamation_number , n ):
     
     if n % 2 == 0:
+        
+        if reclamation_number == 0:
+            return 0
+        
         return 1-1/reclamation_number
     else:
         return 1/n
@@ -82,6 +98,7 @@ def company( n0 , a0 , capital ):
     '''
     
     last_time=0
+    start = time.time()
     while n != 0:
         
         arrive_time = time_client_arrive( amount_reclamations = reclamation_number )
@@ -89,27 +106,40 @@ def company( n0 , a0 , capital ):
         if t-last_time >= arrive_time: 
             n += 1
             n_in +=1  
-            print(f"total clients assisted: {n_in}")
             last_time = t
-            print( f"client:{n} ")
         
         a0 += n * capital        
         
-        print(f"total money{a0}")
         
         reclamation_number = amount_reclamation_distribution( n )
         
-        print(f"number of reclamations for time{t}: {reclamation_number}")
         
         total_reclamation += reclamation_number
         
-        print(f"total reclamations: {total_reclamation}")
         
-        n -= number_client_time(n , reclamation_number , t - last_time)
+        cleft= number_client_time(n , reclamation_number , t - last_time)
+
+
+        n-=cleft
     
         t += arrive_time
-    
+        
+        if time.time() - start >= 1:
+            
+            os.system("cls")
+            print(f"total clients assisted: {n_in}")
+            print( f"client:{n} ")
+            print(f"total money: {a0}")
+            print(f"number of reclamations for time { t }: { reclamation_number }")
+            print(f"total reclamations: {total_reclamation}")
+            print(f"client left: {cleft}")
+            print(f"arriving time for next client: {arrive_time} ")
+            print("-------------------------------------------------------------------------------->>>>>")
+            
+            start +=1
     pass
+
+company( 100 , 500 , .1 )
 
 
 
