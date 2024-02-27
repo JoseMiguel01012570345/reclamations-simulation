@@ -21,13 +21,15 @@ def reclamation_distribution( n ): # M
     
     result=0
     for i in range(n):
-        result+= (factorial(i)*factorial(n-i))/factorial(n)
+        
+       if n * ((factorial(i)*factorial(n-i))/factorial(n))>=1:
+           result+=i
     
     return result
         
 def amount_reclamation_distribution( n ): # number of reclamations
     
-    return int(reclamation_distribution(n)*n)
+    return reclamation_distribution(n)
 
 def time_client_arrive( amount_reclamations ): # time for clients to arrive
 
