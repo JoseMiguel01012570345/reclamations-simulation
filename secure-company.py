@@ -2,6 +2,7 @@ import math as mt
 import os
 import time
 
+
 def factorial(n):
     
     if n==1 or n == 0:
@@ -10,15 +11,21 @@ def factorial(n):
     result=int(1)
     
     for i in range(n):
-        result *= i + 1
-        
-    #print(f"factorial:{result}")
+        try:
+            result *= i + 1
+        except:
+            result = 10e308
     
     return result
 
 def reclamation_distribution1( n ): # M
     
-    return (1/2)**n
+    try:
+        res= (1/2)**n
+        return res
+    except:
+        return 10e-308
+    
 
 def reclamation_distribution2(xi):
     
@@ -35,26 +42,29 @@ def amount_reclamation_distribution( n ): # F
         
         if (n - (xi+1)) % 2 == 0: # people complaint if half of clients complaint
                 
-            combinations= int(int(factorial(n)/ (factorial(xi+1)*factorial(n-(xi+1))))) 
+            try:
+                combinations= int(int(factorial(n)/ (factorial(xi+1)*factorial(n-(xi+1))))) 
+            except:
+                combinations=10e308
             
             recl = reclamation_distribution1(n) 
             
             pq=( recl** (xi+1) )*(( 1 - recl )**( n - (xi+1) )) # number of complaits for a client that complaints with probability of p
             
             complaint_number += int(combinations*pq)
-            #print(f"distribution1: {combinations*pq}")
         
         else:
             
-            combinations= (int(factorial(n)/ (factorial((xi+1))*factorial(n-(xi+1))))) # people complaint if there are many clients
-            
+            try:
+                combinations= (int(factorial(n)/ (factorial((xi+1))*factorial(n-(xi+1))))) # people complaint if there are many clients
+            except:
+                combinations=10e308
+                
             recl = reclamation_distribution2((xi+1)) 
             
             pq=( recl** (xi+1) )*(( 1 - recl )**( n - (xi+1) )) # number of complaits for a client that complaints with probability of p
             
             complaint_number += int(combinations*pq)
-            #print(f"distribution2: {combinations*pq}")
-            
             
     return complaint_number
 
