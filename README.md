@@ -27,3 +27,8 @@ $P = f(C_R,N)$ donde $C_R$ es la cantidad de reclamaciones que ha tenido la comp
 ## Conclusión
 
 Con este modelo podemos modelar el proceso de comienzo de una compañía de seguros en el mercado acercan las condiciones reales a las que se enfrentaría una compañía real en la misma situación en cuanto a la llegada de nuevos clientes y la cantidad de reclamaciones.
+
+
+## Correr el proyecto
+
+Para correr la simulación solo debe correr el script de python  **secure-company.py**
