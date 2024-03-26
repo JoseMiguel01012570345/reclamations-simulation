@@ -61,8 +61,6 @@ Para implementar el escenario de seguros, se pueden seguir los siguientes pasos:
  
 8) Repetir los pasos 3 a 7 hasta que el sistema falle:
 
-El sistema falla cuando no hay más clientes disponibles y no hay reparaciones pendientes.
-
 ## Resultados y experimentos
 
 ### Parámetros iniciales de la simulación
@@ -120,7 +118,7 @@ Nuevamente, si la empresa pide un pago al cliente de 0.25 o superior , entonces 
 
 ## Analisis de la parada de la simulacion
 
-La simulacion no se detiene a menos que el usuario lo detenga , aunque resulta importante destacar que para valores muy grandes de clientes iniciales , el tiempo de simulacion para cada iteracion es considerablemente grande
+El sistema falla cuando no hay más clientes disponibles y no hay reparaciones pendientes.
 
 ## Modelo Matemático
 
