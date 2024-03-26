@@ -73,7 +73,7 @@ def company( n0 , a0 , capital ):
     '''
 
     start = time.time()
-    while n != 0:
+    while n >= 0 and a0 >= 0:
         
         arrive_time = time_client_arrive( amount_reclamations = total_reclamation )
                 
