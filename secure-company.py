@@ -36,27 +36,26 @@ def time_client_arrive( amount_reclamations ): # time for clients to arrive
         if amount_reclamations < 2:
             return 1
         
-        return int(mt.log2(amount_reclamations))
+        return int(mt.log2(amount_reclamations)) ## ------------------------------------------------->>>
 
 def number_client_time( n , reclamation_number , time): # number of clients leaving
     
     client_left=client_time( reclamation_number , n)
     
-    if int( client_left*time ) == 0:
-        return 1
-    else:
-        return int( client_left*time )
+    if int( client_left* mt.sqrt( time + reclamation_number ) ) >=0: ## ------------------------------------->>>>>>>>>>>
+        
+        return int( client_left* mt.sqrt( time + reclamation_number ) ) ## ------------------------------------->>>>>>>>>>>
     
 def client_time( reclamation_number , n ): # distribution for a client to leave
     
-    if n % 2 == 0:
+    if n % 10 == 0:
         
         if reclamation_number == 0:
             return 0
         
-        return 1-1/reclamation_number
+        return 1/reclamation_number
     else:
-        return 1/n
+        return (1/n)
 
 def company( n0 , a0 , capital ):
 
@@ -76,7 +75,7 @@ def company( n0 , a0 , capital ):
     start = time.time()
     while n != 0:
         
-        arrive_time = time_client_arrive( amount_reclamations = reclamation_number )
+        arrive_time = time_client_arrive( amount_reclamations = total_reclamation )
                 
         n += 1
         n_in +=1  
@@ -87,7 +86,9 @@ def company( n0 , a0 , capital ):
         
         total_reclamation += reclamation_number        
         
-        cleft= number_client_time(n , reclamation_number , arrive_time)
+        a0 -= reclamation_number * .25
+        
+        cleft= number_client_time(n , total_reclamation , t) ## ------------------------------------->>>>>>>>>>>
 
         n-=cleft
     
@@ -108,7 +109,7 @@ def company( n0 , a0 , capital ):
             start +=1
     pass
 
-company( 1000 , 500 , .1 )
+company( 1000 , 50 , .235 )
 
 
 
