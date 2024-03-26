@@ -118,7 +118,7 @@ Nuevamente, si la empresa pide un pago al cliente de 0.25 o superior , entonces 
 
 ## Analisis de la parada de la simulacion
 
-El sistema falla cuando no hay más clientes disponibles y no hay reparaciones pendientes.
+El sistema falla cuando existe una cantidad negativa de dinero de la empresa (bancarota) o la cantidad de clientes en ella para algún tiempo $t$ es menor que cero , en cuyo caso no tiene sentido seguir simulando pues se puede interpretar como que la compañía alcanzó cierta impopularidad la cual no le permite continuar
 
 ## Modelo Matemático
 
